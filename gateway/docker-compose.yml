@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+
+  core-service:
+    image: gateway:0.0.1-SNAPSHOT
+    ports:
+      - "5555:5555"
+
+
+

@@ -1,0 +1,44 @@
+version: '3'
+networks:
+  auth-network:
+    external: true
+
+services:
+
+  postgres_auth:
+    image: postgres:9.6
+    networks:
+      - auth-network
+    ports:
+      - "5439:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    healthcheck:
+      test: ["CMD", "pg_isready", "-q", "-U", "postgres"]
+      interval: 5s
+      timeout: 1s
+      retries: 2
+
+  flyway:
+    image: boxfuse/flyway
+    networks:
+      - auth-network
+    command: -url=jdbc:postgresql://postgres_auth:5432/postgres -schemas=public -user=postgres -password=postgres -connectRetries=30 migrate
+    volumes:
+      - ./flyway:/flyway/sql
+    depends_on:
+      - postgres_auth
+
+  auth-service:
+    image: auth-service:0.0.1-SNAPSHOT
+    networks:
+      - auth-network
+    ports:
+      - "8188:8188"
+    environment:
+       - spring.datasource.url=jdbc:postgresql://postgres_auth:5432/postgres
+    depends_on:
+      - flyway
+
+

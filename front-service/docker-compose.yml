@@ -1,0 +1,9 @@
+version: '3'
+
+services:
+
+  front-service:
+    image: front-service:0.0.1-SNAPSHOT
+    ports:
+      - "3000:3000"
+

@@ -1,0 +1,44 @@
+version: '3'
+networks:
+  core-network:
+    external: true
+
+services:
+  postgres_core:
+    image: postgres:9.6
+    networks:
+      - core-network
+    ports:
+      - "5440:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    healthcheck:
+      test: ["CMD", "pg_isready", "-q", "-U", "postgres"]
+      interval: 5s
+      timeout: 1s
+      retries: 2
+
+  flyway:
+    image: boxfuse/flyway
+    networks:
+      - core-network
+    command: -url=jdbc:postgresql://postgres_core:5432/postgres -schemas=public -user=postgres -password=postgres -connectRetries=30 migrate
+    volumes:
+      - ./flyway:/flyway/sql
+    depends_on:
+      - postgres_core
+
+  core-service:
+    image: core-service:0.0.1-SNAPSHOT
+    networks:
+      - core-network
+    ports:
+      - "8189:8189"
+    environment:
+      - spring.datasource.url=jdbc:postgresql://postgres_core:5432/postgres
+      - integrations.cart-service.url=http://host.docker.internal:5555/cart
+    depends_on:
+      - flyway
+
+

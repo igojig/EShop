@@ -1,0 +1,29 @@
+version: '3'
+networks:
+  cart-network:
+    external: true
+
+services:
+  redis:
+    image: 'bitnami/redis:latest'
+    networks:
+      - cart-network
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    ports:
+      - "6379:6379"
+
+  cart-service:
+    image: cart-service:0.0.1-SNAPSHOT
+    networks:
+      - cart-network
+    ports:
+      - "8166:8166"
+    environment:
+      - integrations.core-service.url=http://host.docker.internal:5555/core
+      - redis.hostname=redis
+    depends_on:
+      - redis
+
+
+
