@@ -1,3 +1,15 @@
+![Static Badge](https://img.shields.io/badge/Java-blue)
+![Static Badge](https://img.shields.io/badge/Spring%20Boot-blue)
+![Static Badge](https://img.shields.io/badge/Spring%20Data%20JPA-blue)
+![Static Badge](https://img.shields.io/badge/Spring%20Cloud-blue)
+![Static Badge](https://img.shields.io/badge/Spring%20Secuity%20+%20JWT-blue)
+![Static Badge](https://img.shields.io/badge/PostgreSQL-blue)
+![Static Badge](https://img.shields.io/badge/FlyWay-blue)
+![Static Badge](https://img.shields.io/badge/Redis-blue)
+![Static Badge](https://img.shields.io/badge/REST%20API-blue)
+![Static Badge](https://img.shields.io/badge/Maven-blue)
+![Static Badge](https://img.shields.io/badge/Docker-blue)
+
 ## E-Shop.
 
 Учебный проект. Интернет-магазин на базе микросервисов с функциональными возможностями аутентификации пользователей, формирования корзины товаров и размещения заказа.
